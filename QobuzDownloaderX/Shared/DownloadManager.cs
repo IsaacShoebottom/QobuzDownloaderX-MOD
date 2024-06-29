@@ -329,7 +329,8 @@ namespace QobuzDownloaderX.Shared
             int tracksPageOffset = qobuzAlbum.Tracks.Offset ?? 0;
             int tracksLoaded = qobuzAlbum.Tracks.Items?.Count ?? 0;
 
-            for (int i = 0; i < tracksLoaded; i++)
+            int i = 0;
+            while (i < tracksLoaded)
             {
                 // User requested task cancellation!
                 cancellationToken.ThrowIfCancellationRequested();
@@ -341,6 +342,8 @@ namespace QobuzDownloaderX.Shared
                 qobuzTrack.Album = qobuzAlbum;
 
                 if (!await DownloadTrackAsync(cancellationToken, qobuzTrack, basePath, false, true, isLastTrackOfAlbum, albumPathSuffix)) noErrorsOccured = false;
+
+                i++;
 
                 if (i == (tracksLoaded - 1) && tracksTotal > (i + tracksPageOffset))
                 {
@@ -354,8 +357,8 @@ namespace QobuzDownloaderX.Shared
                     // If Album Track Items is empty, Qobuz max API offset might be reached
                     if (qobuzAlbum.Tracks?.Items?.Any() != true) break;
 
-                    // Reset 0-based counter for looping next batch of tracks
-                    i = -1;
+                    // Reset counter for looping next batch of tracks
+                    i = 0;
                     tracksLoaded = qobuzAlbum.Tracks.Items?.Count ?? 0;
                 }
             }
