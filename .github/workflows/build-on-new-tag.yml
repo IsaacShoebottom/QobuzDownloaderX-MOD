@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
     - name: Checkout
@@ -23,7 +23,7 @@ jobs:
 
     - name: Setup NuGet
       uses: nuget/setup-nuget@v1.2.0
-    
+
     - name: Restore NuGet Packages
       run: nuget restore QobuzDownloaderX.sln
 
