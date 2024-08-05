@@ -1,4 +1,4 @@
-﻿using PlaylistsNET.Content;
+using PlaylistsNET.Content;
 using PlaylistsNET.Models;
 using QobuzApiSharp.Exceptions;
 using QobuzApiSharp.Models.Content;
@@ -328,8 +328,7 @@ namespace QobuzDownloaderX.Shared
             int tracksPageOffset = qobuzAlbum.Tracks.Offset ?? 0;
             int tracksLoaded = qobuzAlbum.Tracks.Items?.Count ?? 0;
 
-            int i = 0;
-            while (i < tracksLoaded)
+            for (int i = 0; i < tracksLoaded; i++)
             {
                 // User requested task cancellation!
                 cancellationToken.ThrowIfCancellationRequested();
@@ -342,9 +341,7 @@ namespace QobuzDownloaderX.Shared
 
                 if (!await DownloadTrackAsync(cancellationToken, qobuzTrack, basePath, false, true, isLastTrackOfAlbum, albumPathSuffix)) noErrorsOccured = false;
 
-                i++;
-
-                if (i == tracksLoaded && tracksTotal > (i + tracksPageOffset))
+                if (i == (tracksLoaded - 1) && tracksTotal > (i + tracksPageOffset))
                 {
                     // load next page of tracks
                     tracksPageOffset += tracksLimit;
@@ -356,8 +353,8 @@ namespace QobuzDownloaderX.Shared
                     // If Album Track Items is empty, Qobuz max API offset might be reached
                     if (qobuzAlbum.Tracks?.Items?.Any() != true) break;
 
-                    // Reset counter for looping next batch of tracks
-                    i = 0;
+                    // Reset 0-based counter for looping next batch of tracks
+                    i = -1;
                     tracksLoaded = qobuzAlbum.Tracks.Items?.Count ?? 0;
                 }
             }
