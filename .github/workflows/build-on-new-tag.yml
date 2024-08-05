@@ -31,8 +31,13 @@ jobs:
       run: |
         msbuild.exe QobuzDownloaderX.sln /p:platform="Any CPU" /p:configuration="Release"
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4.3.6
+    - name: Zip Artifacts
+      run: |
+        7z a -tzip QobuzDownloaderX/bin/QobuzDownloaderX_v${{ github.ref_name}}.zip QobuzDownloaderX/bin/Release
+
+    - name: Release Artifact
+      uses: softprops/action-gh-release@v2
       with:
-        name: QBDLX-MOD_${{ github.event.release.tag_name }}
-        path: QobuzDownloaderX\bin\Release
+        generate_release_notes: true
+        make_latest: true
+        files: QobuzDownloaderX/bin/QobuzDownloaderX_v${{ github.ref_name}}.zip
