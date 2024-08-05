@@ -42,4 +42,5 @@ jobs:
       with:
         generate_release_notes: true
         make_latest: true
-        files: QobuzDownloaderX.zip
+        files: |
+          QobuzDownloaderX/bin/Release/QobuzDownloaderX.zip
