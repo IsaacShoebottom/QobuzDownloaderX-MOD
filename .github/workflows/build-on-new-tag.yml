@@ -22,8 +22,8 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Setup NuGet
-      uses: nuget/setup-nuget@v2.0.0
-    
+      uses: nuget/setup-nuget@v1.2.0
+
     - name: Restore NuGet Packages
       run: nuget restore QobuzDownloaderX.sln
 
