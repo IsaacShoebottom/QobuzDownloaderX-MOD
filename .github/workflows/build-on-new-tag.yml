@@ -33,11 +33,14 @@ jobs:
 
     - name: Zip Artifacts
       run: |
-        7z a -tzip QobuzDownloaderX/bin/QobuzDownloaderX_v${{ github.ref_name}}.zip QobuzDownloaderX/bin/Release
+        cd QobuzDownloaderX/bin/Release
+        7z a -tzip QobuzDownloaderX.zip *
+        cd ../../..
 
     - name: Release Artifact
       uses: softprops/action-gh-release@v2
       with:
         generate_release_notes: true
         make_latest: true
-        files: QobuzDownloaderX/bin/QobuzDownloaderX_v${{ github.ref_name}}.zip
+        files: |
+          QobuzDownloaderX/bin/Release/QobuzDownloaderX.zip
